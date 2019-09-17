@@ -11,37 +11,35 @@ class DnsRecord extends Model
 
     public static function boot()
     {
-    	parent::boot();
+        parent::boot();
 
-    	static::creating(function ($dnsRecord) {
-    		if (filter_var($dnsRecord->destination, FILTER_VALIDATE_IP))
-    		{
-    			$ip = Ip::firstOrCreate(['ip' => $dnsRecord->destination]);
-    			$dnsRecord->ip()->associate($ip);
+        static::creating(function ($dnsRecord) {
+            if (filter_var($dnsRecord->destination, FILTER_VALIDATE_IP)) {
+                $ip = Ip::firstOrCreate(['ip' => $dnsRecord->destination]);
+                $dnsRecord->ip()->associate($ip);
 
-    			//dd($dnsRecord);
-    		}
-    		
-    	});
+                //dd($dnsRecord);
+            }
+        });
     }
 
     public function ip()
     {
-    	return $this->belongsTo('App\Models\Ip');
+        return $this->belongsTo('App\Models\Ip');
     }
 
     public function canDelete()
     {
-    	return ! $this->imported_by_zonefile;
+        return ! $this->imported_by_zonefile;
     }
 
     public function scopeImported($query)
     {
-    	return $query->where('imported_by_zonefile', '=', true);
+        return $query->where('imported_by_zonefile', '=', true);
     }
 
     public function domain()
     {
-    	return $this->belongsTo('App\Models\Domain');
+        return $this->belongsTo('App\Models\Domain');
     }
 }

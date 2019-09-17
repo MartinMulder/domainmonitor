@@ -2,18 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Models\Domain;
-use App\Models\whoisData;
 use Carbon\Carbon;
+use App\Models\Domain;
+use Iodev\Whois\Whois;
+use App\Models\whoisData;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Iodev\Whois\Loaders\CurlLoader;
-use Iodev\Whois\Whois;
-
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class ExecuteIPWhois implements ShouldQueue
 {
@@ -38,13 +37,13 @@ class ExecuteIPWhois implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('execute whois for IP:' . $this->ip);
+        Log::debug('execute whois for IP:'.$this->ip);
 
         // Set proxy options
         $loader = new CurlLoader();
         $loader->replaceOptions([
             CURLOPT_PROXYTYPE => CURLPROXY_SOCKS5,
-            CURLOPT_PROXY => "127.0.0.1:9080"
+            CURLOPT_PROXY => '127.0.0.1:9080',
         ]);
 
         // Create and execute whois service
@@ -53,7 +52,7 @@ class ExecuteIPWhois implements ShouldQueue
 
         // Fetch the persisted data
         $whoisData = $this->domain->whoisData ?: new whoisData;
-        
+
         // Update persisted data
         $whoisData->domainname = $this->domain->domain;
         $whoisData->active = implode(',', $info->getStates());
