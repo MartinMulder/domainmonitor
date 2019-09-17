@@ -17,8 +17,6 @@ class DnsRecord extends Model
             if (filter_var($dnsRecord->destination, FILTER_VALIDATE_IP)) {
                 $ip = Ip::firstOrCreate(['ip' => $dnsRecord->destination]);
                 $dnsRecord->ip()->associate($ip);
-
-                //dd($dnsRecord);
             }
         });
     }

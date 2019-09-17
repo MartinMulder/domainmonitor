@@ -13,6 +13,7 @@
 
 Route::get('/domain/doWhois/{domain}', 'DomainController@doWhois');
 Route::resource('domain', 'DomainController');
+Route::resource('ip', 'IpController');
 Route::get('/DNSImporter', 'DNSImporter@import');
 Route::get('/', function () {
     return view('welcome');
