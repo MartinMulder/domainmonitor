@@ -8,8 +8,8 @@ class Ip extends Model
 {
     public $fillable = ['ip', 'reverse_dns', 'whois_data'];
 
-    public function dnsRecords() 
+    public function dnsRecords()
     {
-    	return $this->hasMany('App\Models\DnsRecord');
+        return $this->hasMany('App\Models\DnsRecord');
     }
 }

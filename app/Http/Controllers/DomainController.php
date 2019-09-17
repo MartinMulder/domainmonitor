@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ExecuteWhois;
 use App\Models\Domain;
+use App\Jobs\ExecuteWhois;
 use Illuminate\Http\Request;
 
 class DomainController extends Controller
@@ -16,6 +16,7 @@ class DomainController extends Controller
     public function index()
     {
         $domains = Domain::all();
+
         return view('domains.index', compact('domains'));
     }
 
@@ -93,9 +94,8 @@ class DomainController extends Controller
         $domains = Domain::whereNull('last_whois_date')->get();
         foreach($domains as $d) {
             ExecuteWhois::dispatch($d);
-            sleep(5);    
-        }        
+            sleep(5);
+        }
         */
-        
     }
 }
