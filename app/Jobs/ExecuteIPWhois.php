@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\Domain;
+use App\Models\whoisData;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Iodev\Whois\Loaders\CurlLoader;
+use Iodev\Whois\Whois;
+
+
+class ExecuteIPWhois implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $ip;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct($ip)
+    {
+        $this->ip = $ip;
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Log::debug('execute whois for IP:' . $this->ip);
+
+        // Set proxy options
+        $loader = new CurlLoader();
+        $loader->replaceOptions([
+            CURLOPT_PROXYTYPE => CURLPROXY_SOCKS5,
+            CURLOPT_PROXY => "127.0.0.1:9080"
+        ]);
+
+        // Create and execute whois service
+        $whois = Whois::create($loader);
+        $info = $whois->loadDomainInfo($this->domain->domain);
+
+        // Fetch the persisted data
+        $whoisData = $this->domain->whoisData ?: new whoisData;
+        
+        // Update persisted data
+        $whoisData->domainname = $this->domain->domain;
+        $whoisData->active = implode(',', $info->getStates());
+        $whoisData->dnsservers = implode(',', $info->getNameServers());
+        $whoisData->owner = $info->getOwner();
+        $whoisData->registrar = $info->getRegistrar();
+        $whoisData->creationDate = ($info->getCreationDate() == 0) ? null : $info->getCreationDate();
+        $whoisData->expirationDate = ($info->getExpirationDate() == 0) ? null : $info->getExpirationDate();
+        $whoisData->whoisserver = $info->getWhoisServer();
+        $whoisData->rawData = $info->getResponse()->getText();
+
+        // Update the last whois date
+        $this->domain->last_whois_date = Carbon::now();
+
+        // Save the data
+        $this->domain->whoisData()->save($whoisData);
+        $this->domain->save();
+
+        //dd($info);
+    }
+}

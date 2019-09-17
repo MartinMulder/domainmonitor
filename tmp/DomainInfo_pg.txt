@@ -1,0 +1,67 @@
+DomainInfo {#1162 ▼
+  -response: DomainResponse {#1159 ▼
+    -domain: "provinciegroningen.nl"
+    -query: "provinciegroningen.nl\r\n"
+    -text: """
+      Domain name: provinciegroningen.nl\r\n
+      Status:      active\r\n
+      \r\n
+      Registrar:\r\n
+         BIT B.V.\r\n
+         Galileilaan 19\r\n
+         6716BP EDE GLD\r\n
+         Netherlands\r\n
+      \r\n
+      Abuse Contact:\r\n
+         +31.318648688\r\n
+         abuse@bit.nl\r\n
+      \r\n
+      DNSSEC:      yes\r\n
+      \r\n
+      Domain nameservers:\r\n
+         nsauth1.bit.nl\r\n
+         nsauth2.bit.nl\r\n
+         nsauth3.bit.org\r\n
+      \r\n
+      Record maintained by: NL Domain Registry\r\n
+      \r\n
+      Copyright notice\r\n
+      No part of this publication may be reproduced, published, stored in a\r\n
+      retrieval system, or transmitted, in any form or by any means,\r\n
+      electronic, mechanical, recording, or otherwise, without prior\r\n
+      permission of the Foundation for Internet Domain Registration in the\r\n
+      Netherlands (SIDN).\r\n
+      These restrictions apply equally to registrars, except in that\r\n
+      reproductions and publications are permitted insofar as they are\r\n
+      reasonable, necessary and solely in the context of the registration\r\n
+      activities referred to in the General Terms and Conditions for .nl\r\n
+      Registrars.\r\n
+      Any use of this material for advertising, targeting commercial offers or\r\n
+      similar activities is explicitly forbidden and liable to result in legal\r\n
+      action. Anyone who is aware or suspects that such activities are taking\r\n
+      place is asked to inform the Foundation for Internet Domain Registration\r\n
+      in the Netherlands.\r\n
+      (c) The Foundation for Internet Domain Registration in the Netherlands\r\n
+      (SIDN) Dutch Copyright Act, protection of authors' rights (Section 10,\r\n
+      subsection 1, clause 1).\r\n
+      """
+    -host: "whois.domain-registry.nl"
+  }
+  -data: array:8 [▼
+    "domainName" => "provinciegroningen.nl"
+    "states" => array:1 [▼
+      0 => "active"
+    ]
+    "nameServers" => array:3 [▼
+      0 => "nsauth1.bit.nl"
+      1 => "nsauth2.bit.nl"
+      2 => "nsauth3.bit.org"
+    ]
+    "owner" => ""
+    "registrar" => "BIT B.V."
+    "creationDate" => 0
+    "expirationDate" => 0
+    "whoisServer" => ""
+  ]
+  -parserType: "indentAutofix"
+}
