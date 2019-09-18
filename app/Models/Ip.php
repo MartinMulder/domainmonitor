@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ip extends Model
 {
-    public $fillable = ['ip', 'reverse_dns', 'whois_data'];
+    protected $fillable = ['ip', 'reverse_dns', 'whois_data'];
+    public $trackChanges = ['ip', 'reverse_dns', 'whois_data'];
 
     public function dnsRecords()
     {
         return $this->hasMany('App\Models\DnsRecord');
+    }
+
+    public function auditLogs()
+    {
+    	return $this->morphMany('App\Models\AuditLog', 'auditable');
     }
 }

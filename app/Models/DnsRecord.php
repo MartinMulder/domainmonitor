@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DnsRecord extends Model
 {
     protected $fillable = ['name', 'type', 'destination', 'comment', 'ttl', 'imported_by_zonefile'];
+    public $trackChanges = ['name', 'type', 'destination', 'comment', 'ttl', 'imported_by_zonefile'];
 
     public static function boot()
     {
@@ -39,5 +40,10 @@ class DnsRecord extends Model
     public function domain()
     {
         return $this->belongsTo('App\Models\Domain');
+    }
+
+    public function auditLogs()
+    {
+    	return $this->morphMany('App\Models\AuditLog', 'auditable');
     }
 }

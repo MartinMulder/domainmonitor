@@ -18,5 +18,18 @@ class WhoisData extends Model
         'rawData',
     ];
 
+    public $tracKChanges = [
+        'domainname',
+        'active',
+        'dnsservers',
+        'owner',
+        'registrar'
+    ];
+
     protected $dates = ['creationDate', 'expirationDate'];
+
+    public function auditLogs()
+    {
+        return $this->morphMany('App\Models\AuditLog', 'auditable');
+    }
 }

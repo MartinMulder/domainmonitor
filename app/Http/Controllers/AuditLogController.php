@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ExecuteReverseDnsLookup;
-use App\Models\Ip;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 
-class IpController extends Controller
+class AuditLogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,9 @@ class IpController extends Controller
      */
     public function index()
     {
-        $ips = Ip::withCount('dnsrecords')->get();
-        return view('ip.index', compact('ips'));
+        $auditlogs = AuditLog::all();
+
+        return view('auditlog.index', compact('auditlogs'));
     }
 
     /**
@@ -43,21 +43,21 @@ class IpController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Ip  $ip
+     * @param  \App\Models\AuditLog  $auditlog
      * @return \Illuminate\Http\Response
      */
-    public function show(Ip $ip)
+    public function show(AuditLog $auditlog)
     {
-        return view('ip.show', compact('ip'));
+        return view('auditlog.show', compact('auditlog'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Ip  $ip
+     * @param  \App\Models\AuditLog  $auditlog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ip $ip)
+    public function edit(AuditLog $auditlog)
     {
         //
     }
@@ -66,10 +66,10 @@ class IpController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ip  $ip
+     * @param  \App\Models\AuditLog  $auditlog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ip $ip)
+    public function update(Request $request, AuditLog $auditlog)
     {
         //
     }
@@ -77,24 +77,11 @@ class IpController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ip  $ip
+     * @param  \App\Models\AuditLog  $auditlog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ip $ip)
+    public function destroy(AuditLog $auditlog)
     {
         //
-    }
-
-    public function doReverseDns(IP $ip)
-    {
-        $foo = ExecuteReverseDnsLookup::dispatch($ip);
-        //return redirect()->back();
-        /*
-        $domains = Domain::whereNull('last_whois_date')->get();
-        foreach($domains as $d) {
-            ExecuteWhois::dispatch($d);
-            sleep(5);
-        }
-        */
     }
 }

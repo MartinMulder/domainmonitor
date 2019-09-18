@@ -35,12 +35,5 @@ class ExecuteReverseDnsLookup implements ShouldQueue
     {
         $this->ip->reverse_dns = gethostbyaddr($this->ip->ip);
         $this->ip->save();
-
-        if (count($this->ip->getChanges()) > 0) {
-            Log::info('Updated reverse DNS for ip: '.$this->ip->ip );
-            Log::debug(print_r($this->ip->getChanges(), true));
-        } else {
-            Log::debug('Reverse DNS lookup for ip: ' . $this->ip->ip . " reverse dns: " . $this->ip->reverse_dns);
-        }
     }
 }
