@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ExecuteReverseDnsLookup;
 use App\Models\Ip;
 use Illuminate\Http\Request;
 
@@ -82,5 +83,18 @@ class IpController extends Controller
     public function destroy(Ip $ip)
     {
         //
+    }
+
+    public function doReverseDns(IP $ip)
+    {
+        $foo = ExecuteReverseDnsLookup::dispatch($ip);
+        return redirect()->back();
+        /*
+        $domains = Domain::whereNull('last_whois_date')->get();
+        foreach($domains as $d) {
+            ExecuteWhois::dispatch($d);
+            sleep(5);
+        }
+        */
     }
 }
