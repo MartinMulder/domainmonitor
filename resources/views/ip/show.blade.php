@@ -1,6 +1,9 @@
+@extends('layouts.app')
+
+@section('content')
 <a href="{{route('ip.index')}}">Back</a>
 <h1>{{$ip->ip}}</h1>
-<table border="1">
+<table class="table">
 	<tr>
 		<th>Name</th>
 		<th>Domain</th>
@@ -22,3 +25,4 @@
 	</tr>
 	@endforeach
 </table>
+@endsection

@@ -1,4 +1,7 @@
-<table>
+@extends('layouts.app')
+
+@section('content')
+<table class="table">
 	<tr>
 		<th>IP</th>
 		<th>Reverse DNS</th>
@@ -16,3 +19,4 @@
 	</tr>
 	@endforeach
 </table>
+@endsection

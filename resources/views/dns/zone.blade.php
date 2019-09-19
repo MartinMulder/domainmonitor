@@ -1,4 +1,7 @@
-<table border="1">
+@extends('layouts.app')
+
+@section('content')
+<table class="table">
 @foreach($zone->getResourceRecords() as $record)
 	<tr>
 		<td>{{$record->getName()}}</td>
@@ -9,3 +12,4 @@
 	</tr>
 @endforeach
 </table>
+@endsection

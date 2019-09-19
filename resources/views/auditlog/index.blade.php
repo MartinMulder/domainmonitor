@@ -1,4 +1,7 @@
-<table border="1">
+@extends('layouts.app')
+
+@section('content')
+<table class="table">
 	<tr>
 		<th>ID</th>
 		<th>Action</th>
@@ -30,3 +33,4 @@
 	</tr>
 	@endforeach
 </table>
+@endsection

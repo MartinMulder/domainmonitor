@@ -1,6 +1,9 @@
+@extends('layouts.app')
+
+@section('content')
 <a href="{{route('domain.index')}}">Back</a>
 <h1>{{$domain->domain}}</h1>
-<table border="1">
+<table class="table">
 	<tr>
 		<th>Name</th>
 		<th>Type</th>
@@ -20,3 +23,4 @@
 	</tr>
 	@endforeach
 </table>
+@endsection

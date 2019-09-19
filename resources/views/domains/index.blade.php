@@ -1,4 +1,7 @@
-<table>
+@extends('layouts.app')
+
+@section('content')
+<table class="table">
 	<tr>
 		<th>Domain</th>
 		<th>In BIT portal</th>
@@ -28,3 +31,4 @@
 	</tr>
 	@endforeach
 </table>
+@endsection
