@@ -34,7 +34,7 @@
 			{{ $log->auditable_id }}
 		</td>
 		<td>
-			{{ $log->description }}
+			<span title="{{ $log->result }}">{{ $log->description }}</span>
 		</td>
 		<td>
 		</td>

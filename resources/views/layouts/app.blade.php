@@ -36,6 +36,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-link"><a href="{{ route('domain.index')}}">Domains</a></li>
                         <li class="nav-link"><a href="{{ route('ip.index')}}">IP's</a></li>
+                        <li class="nav-link"><a href="{{ route('zonefile.index')}}">Zonefiles</a></li>
                         <li class="nav-link"><a href="{{ route('auditlog.index')}}">Auditlogs</a></li>
                     </ul>
 
@@ -74,7 +75,7 @@
                 </div>
             </div>
         </nav>
-        <div class="row mt-4 offset-md-2 pl-4">
+        <div class="mt-4 offset-md-2 pl-4">
             <h1>@yield('page')</h1>
         </div>
         <main class="pb-4">

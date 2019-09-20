@@ -17,6 +17,7 @@ Route::get('/ip/doReverseDns/{ip}', 'IpController@doReverseDns');
 Route::resource('ip', 'IpController');
 Route::get('/DNSImporter', 'DNSImporter@import');
 Route::resource('auditlog', 'AuditLogController');
+Route::resource('zonefile', 'ZoneFileController');
 Route::get('/', function () {
     return view('welcome');
 });
