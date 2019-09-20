@@ -9,7 +9,7 @@ class Domain extends Model
     protected $fillable = ['domain', 'in_bitportal', 'last_whois_date'];
     protected $dates = ['last_whois_date'];
 
-    public $trackChanges = ['domain', 'in_bitportal'];
+    public $trackChanges = ['domain', 'in_bitportal', 'last_whois_date'];
 
     public function whoisData()
     {

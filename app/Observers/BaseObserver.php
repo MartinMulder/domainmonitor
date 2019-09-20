@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 abstract class BaseObserver
 {
@@ -17,11 +18,13 @@ abstract class BaseObserver
 			$notifiable = array_intersect_key($model->getChanges(), $trackChanges);	
 
 			$str = "";
+			
 			foreach($notifiable as $key => $val) {
 				$str .= $key . ' => ' . $val . "\n";
 			}
 			//return $notifiable;		
-			$str;
+			return $str;
+
 		}
 		return false;
 	}
