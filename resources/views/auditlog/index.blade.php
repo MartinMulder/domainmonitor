@@ -6,7 +6,7 @@
 
 @section('content')
 @panel
-<table class="table">
+<table class="table table-sm">
 	<tr>
 		<th>ID</th>
 		<th>When</th>

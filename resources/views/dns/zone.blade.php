@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<table class="table">
+<table class="table table-sm">
 @foreach($zone->getResourceRecords() as $record)
 	<tr>
 		<td>{{$record->getName()}}</td>
