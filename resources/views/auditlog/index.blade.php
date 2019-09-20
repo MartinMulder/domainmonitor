@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
+@section('page')
+	Auditlog overview
+@endsection
+
 @section('content')
+@panel
 <table class="table">
 	<tr>
 		<th>ID</th>
+		<th>When</th>
 		<th>Action</th>
 		<th>Model</th>
 		<th>Model ID</th>
@@ -14,6 +20,9 @@
 	<tr>
 		<td>
 			{{ $log->id }}
+		</td>
+		<td>
+			{{ $log->created_at }}
 		</td>
 		<td>
 			{{ $log->action }}
@@ -28,9 +37,9 @@
 			{{ $log->description }}
 		</td>
 		<td>
-			{{ $log->result }}
 		</td>
 	</tr>
 	@endforeach
 </table>
+@endpanel
 @endsection

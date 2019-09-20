@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
+@section('page')
+	IP overview
+@endsection
+
 @section('content')
+@panel
 <table class="table">
 	<tr>
 		<th>IP</th>
@@ -19,4 +24,5 @@
 	</tr>
 	@endforeach
 </table>
+@endpanel
 @endsection

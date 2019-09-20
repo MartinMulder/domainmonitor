@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
+@section('page')
+	Domain overview
+@endsection
+
 @section('content')
+@panel
 <table class="table">
 	<tr>
 		<th>Domain</th>
@@ -31,4 +36,5 @@
 	</tr>
 	@endforeach
 </table>
+@endpanel
 @endsection

@@ -9,6 +9,7 @@ use App\Observers\DomainObserver;
 use App\Observers\IpObserver;
 use App\Observers\WhoisDataObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +33,7 @@ class AppServiceProvider extends ServiceProvider
         Ip::observe(IpObserver::class);
         Domain::observe(DomainObserver::class);
         WhoisData::observe(WhoisDataObserver::class);
+
+        Blade::component('components.panel', 'panel');
     }
 }

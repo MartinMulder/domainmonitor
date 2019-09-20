@@ -23,7 +23,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -34,7 +34,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-link"><a href="{{ route('domain.index')}}">Domains</a></li>
+                        <li class="nav-link"><a href="{{ route('ip.index')}}">IP's</a></li>
+                        <li class="nav-link"><a href="{{ route('auditlog.index')}}">Auditlogs</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -72,11 +74,18 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            <div class="container mb-5">
+        <div class="row mt-4 offset-md-2 pl-4">
+            <h1>@yield('page')</h1>
+        </div>
+        <main class="pb-4">
+            <div class="container-fluid">
                 <div class="row mt-4">
-                    @yield('content')
+                    <div class="col-md-2 d-none d-md-block  sidebar">
+                        @stack('menu')
+                    </div>
+                    <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                        @yield('content')
+                    </div>
                 </div>
             </div>
         </main>

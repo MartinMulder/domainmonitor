@@ -10644,3 +10644,7 @@ a.text-dark:focus {
   }
 }
 
+.text-break {
+  word-break: break-all;
+}
+

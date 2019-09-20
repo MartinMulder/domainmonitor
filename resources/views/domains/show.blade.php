@@ -1,26 +1,45 @@
 @extends('layouts.app')
 
+@section('page')
+	Domain: {{ $domain->domain }}
+@endsection
+
+@push('menu')
+	<div class="col-12">
+		@panel(['title' => "Log"])
+			@include('auditlog.partials.sidebar', ['auditlogs' => $domain->auditLogs])
+		@endpanel
+	</div>
+	<div class="col-12">
+		@panel(['title' => "Whois"])
+			@include('domains.partials.whois', ['domain' => $domain])
+		@endpanel
+	</div>
+@endpush
+
 @section('content')
-<a href="{{route('domain.index')}}">Back</a>
-<h1>{{$domain->domain}}</h1>
-<table class="table">
-	<tr>
-		<th>Name</th>
-		<th>Type</th>
-		<th>Destination</th>
-		<th>Comment</th>
-		<th>TTL</th>
-		<th>Deletable</th>
-	</tr>
-	@foreach($domain->dnsRecords as $record)
-	<tr>
-		<td>{{ $record->name}}</td>
-		<td>{{ $record->type}}</td>
-		<td>{{ $record->destination}}</td>
-		<td>{{ $record->comment}}</td>
-		<td>{{ $record->ttl}}</td>
-		<td>{{ $record->canDelete()}}</td>
-	</tr>
-	@endforeach
-</table>
+<div class="row">
+	<div class="col-12">
+		@panel(['title' => "DNS records" ])
+		<table class="table table-sm">
+			<tr>
+				<th class="col-sm-1">Name</th>
+				<th class="col-sm-1">Type</th>
+				<th class="text-wrap col-sm-7">Destination</th>
+				<th class="col-sm-2">Comment</th>
+				<th class="col-sm-1">TTL</th>
+			</tr>
+			@foreach($domain->dnsRecords as $record)
+			<tr>
+				<td>{{ $record->name}}</td>
+				<td>{{ $record->type}}</td>
+				<td class="text-break">{{ $record->destination}}</td>
+				<td>{{ $record->comment}}</td>
+				<td>{{ $record->ttl}}</td>
+			</tr>
+			@endforeach
+		</table>
+		@endpanel
+	</div>
+</div>
 @endsection
