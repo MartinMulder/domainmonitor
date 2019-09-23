@@ -12,6 +12,7 @@
         "badcow/dns": "^2.3",
         "fideloper/proxy": "^4.0",
         "io-developer/php-whois": "^3.4",
+        "jfcherng/php-diff": "^6.1",
         "laravel/framework": "^6.0",
         "laravel/horizon": "^3.3",
         "laravel/tinker": "^1.0",

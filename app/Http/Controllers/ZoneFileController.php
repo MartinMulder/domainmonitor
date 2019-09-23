@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ZoneFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Jfcherng\Diff\DiffHelper;
+use Jfcherng\Diff\Differ;
+use Jfcherng\Diff\Factory\RendererFactory;
 
 class ZoneFileController extends Controller
 {
@@ -58,6 +61,46 @@ class ZoneFileController extends Controller
         return redirect()->back(); 
     }
 
+	/**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\ZoneFile  $zonefile
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(ZoneFile $zonefile)
+    {
+        return view('zonefile.edit', compact('zonefile'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\ZoneFile  $zonefile
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, ZoneFile $zonefile)
+    {
+    	$zf = ZoneFile::find($zonefile->id);
+
+        $validatedData = $request->validate([
+        	'content' => 'required'
+        ]);
+        try {
+        	// Force imported to false
+        	//$zoneFile->imported = false;
+        	$zf->content = $request->input('content');
+        	$zf->save();
+        } catch ( \Exception $e ) {
+        	throw $e;
+        	Log::debug("Zonefile error: " . print_r($e->getMessage(), true));
+        	return back()->withInput(); //->withErrors();
+        }
+
+        return redirect('zonefile.show'); 
+    }
+
+
     /**
      * Display the specified resource.
      *
@@ -67,5 +110,49 @@ class ZoneFileController extends Controller
     public function show(ZoneFile $zonefile)
     {
         return view('zonefile.show', compact('zonefile'));
+    }
+
+    public function diff(ZoneFile $old, ZoneFile $new) 
+    {
+    	// renderer class name: Unified, Context, Json, Inline, SideBySide
+    	$rendererName = 'Inline';
+
+    	$differOptions = [
+    		// Show how many neighbor lines
+    		'context' => 3,
+    		// ignore case differance
+    		'ignoreCase' => false,
+    		// ignore whitespace differance
+    		'ignoreWhitespace' => false,
+    	];
+
+    	$rendererOptions = [
+    		// how detailed the rendered HTML in-line diff is? (none, line, word, char)
+		    'detailLevel' => 'line',
+		    // renderer language: eng, cht, chs, jpn, ...
+		    // or an array which has the same keys with a language file
+		    'language' => 'eng',
+		    // show a separator between different diff hunks in HTML renderers
+		    'separateBlock' => true,
+		    // the frontend HTML could use CSS "white-space: pre;" to visualize consecutive whitespaces
+		    // but if you want to visualize them in the backend with "&nbsp;", you can set this to true
+		    'spacesToNbsp' => false,
+		    // HTML renderer tab width (negative = do not convert into spaces)
+		    'tabSize' => 4,
+		    // internally, ops (tags) are all int type but this is not good for human reading.
+		    // set this to "true" to convert them into string form before outputting.
+		    'outputTagAsString' => true,
+		    // extra HTML classes added to the DOM of the diff container
+		    'wrapperClasses' => ['diff-wrapper'],
+    	];
+
+		// one-line simply compare two strings
+		$result = DiffHelper::calculate($old->content, $new->content, $rendererName, $differOptions, $rendererOptions);
+
+		// custom usage
+		$differ = new Differ(explode("\n", $old->content), explode("\n", $new->content), $differOptions);
+		$renderer = RendererFactory::make($rendererName, $rendererOptions); // or your own renderer object
+		$diff = $renderer->render($differ);
+		return view('zonefile.diff', compact('diff','old', 'new'));
     }
 }
