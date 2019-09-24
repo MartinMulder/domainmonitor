@@ -21,6 +21,7 @@ class IpObserver extends BaseObserver
         $description = "IP " . $ip->ip . ' ' . __FUNCTION__;
         $ip->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($ip, true)]);
         ExecuteReverseDnsLookup::dispatch($ip);
+        ExecutePortScan::dispatch($ip);
     }
 
     /**
