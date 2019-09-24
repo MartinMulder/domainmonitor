@@ -14,6 +14,11 @@ class Ip extends Model
         return $this->hasMany('App\Models\DnsRecord');
     }
 
+    public function services()
+    {
+        return $this->hasMany('App\Models\Service');
+    }
+
     public function auditLogs()
     {
     	return $this->morphMany('App\Models\AuditLog', 'auditable');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e883085ea4aa226b70a9d8516e8cf07",
+    "content-hash": "6a5ff6686e3388fa1930f79bbf738478",
     "packages": [
         {
             "name": "badcow/dns",
@@ -3390,6 +3390,46 @@
                 "environment"
             ],
             "time": "2019-09-10T21:37:39+00:00"
+        },
+        {
+            "name": "willdurand/nmap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/nmap.git",
+                "reference": "0fcd897e93cfcf73acc661cb83d41e06189982a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/nmap/zipball/0fcd897e93cfcf73acc661cb83d41e06189982a7",
+                "reference": "0fcd897e93cfcf73acc661cb83d41e06189982a7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/process": "~2.0|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Nmap": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William DURAND",
+                    "email": "william.durand1@gmail.com"
+                }
+            ],
+            "description": "nmap is a PHP wrapper for Nmap, a free security scanner for network exploration.",
+            "time": "2019-09-09T06:12:00+00:00"
         }
     ],
     "packages-dev": [
@@ -5376,7 +5416,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "willdurand/nmap": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
