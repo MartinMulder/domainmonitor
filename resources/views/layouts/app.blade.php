@@ -82,10 +82,10 @@
         <main class="pb-4">
             <div class="container-fluid">
                 <div class="row mt-4">
-                    <div class="col-md-2 d-none d-md-block  sidebar">
+                    <div class="col-md-3 d-none d-md-block  sidebar">
                         @stack('menu')
                     </div>
-                    <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div class="col-md-7 ml-sm-auto col-lg-9 px-4">
                         @yield('content')
                     </div>
                 </div>
