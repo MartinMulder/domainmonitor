@@ -14,7 +14,7 @@ class MakeScreenshots extends Command
      *
      * @var string
      */
-    protected $signature = 'monitor:makeScreenshots';
+    protected $signature = 'monitor:makeScreenshots {--onlyNew}';
 
     /**
      * The console command description.
@@ -40,8 +40,11 @@ class MakeScreenshots extends Command
      */
     public function handle()
     {
+        $onlyNew = $this->option('onlyNew');
+        
         // Get all the HTTP based services
         $services = Service::http()->get();
+
         // Loop through the services and get al the dns entries pointing to it
         foreach ($services as $service)
         {
@@ -53,7 +56,7 @@ class MakeScreenshots extends Command
                 {
                     $url .= ':' . $service->port;
                 } 
-                ExecuteScreenshot::dispatch($url, $record->getDnsName(), $service->port);
+                ExecuteScreenshot::dispatch($url, $record->getDnsName(), $service->port, $onlyNew);
             }
         }
     }

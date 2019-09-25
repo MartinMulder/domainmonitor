@@ -18,17 +18,19 @@ class ExecuteScreenshot implements ShouldQueue
     private $url;
     private $dnsName;
     private $port;
+    private $onlyNew;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($url, $dnsName, $port)
+    public function __construct($url, $dnsName, $port, $onlyNew=false)
     {
         $this->url = $url;
         $this->dnsName = $dnsName;
         $this->port = $port;
+        $this->onlyNew = $onlyNew;
     }
 
     /**
@@ -38,24 +40,33 @@ class ExecuteScreenshot implements ShouldQueue
      */
     public function handle()
     {
-        // Call the google API to fetch JSON data
-        $screen_shot_json_data = file_get_contents("https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=$this->url&screenshot=true&key=AIzaSyD4uFoZtoPsDU0AouIMbtUdopJY1IBKtC4e");
+        // check if the image exists
+        $imageExists = Storage::disk('public')->exists('screenshots/' . $this->dnsName . '/' . $this->port . '.jpg');
 
-        // Decode JSON response in PHP array
-        $screen_shot_result = json_decode($screen_shot_json_data, true);
+        if ($this->onlyNew && $imageExists)
+        {
+            Log::debug('Skipping screenshot making because only new should be taken and image exists');
+        } else {
+            // Call the google API to fetch JSON data
+            $screen_shot_json_data = file_get_contents("https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=$this->url&screenshot=true&key=AIzaSyD4uFoZtoPsDU0AouIMbtUdopJY1IBKtC4");
 
-        // Get the base64 image data
-        $screen_shot = $screen_shot_result['screenshot']['data'];
+            // Decode JSON response in PHP array
+            $screen_shot_result = json_decode($screen_shot_json_data, true);
 
-        // String-replace some stuff
-        // $screen_shot contains the base64 image source
-        $screen_shot = str_replace(array('_','-'), array('/','+'), $screen_shot);
+            // Get the base64 image data
+            $screen_shot = $screen_shot_result['screenshot']['data'];
 
-        // Save the image
-        Storage::put('public/screenshots/' . $this->dnsName . '/' . $this->port . '.jpg', base64_decode($screen_shot));
+            // String-replace some stuff
+            // $screen_shot contains the base64 image source
+            $screen_shot = str_replace(array('_','-'), array('/','+'), $screen_shot);
 
-        // Construct an image tag with the right data
-        //$screen_shot_image = "<img src=\"data:image/jpeg;base64,".$screen_shot."\" class='img-responsive img-thumbnail' />";
+            // Save the image
+            Storage::put('public/screenshots/' . $this->dnsName . '/' . $this->port . '.jpg', base64_decode($screen_shot));
+
+            // Construct an image tag with the right data
+            //$screen_shot_image = "<img src=\"data:image/jpeg;base64,".$screen_shot."\" class='img-responsive img-thumbnail' />";    
+        }
+        
 
     }
 }
