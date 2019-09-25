@@ -33,10 +33,12 @@ class ExecuteScreenshot implements ShouldQueue
     public function handle()
     {
         // Make sure port 80/443 is open for the domain and select scheme
-        // $scheme = http:// || https://
+        // $scheme = http || https
+
 
         // Construct the url 
-        $url = $scheme . $this->dnsRecord->name . "." . $this->dnsRecord->domain->domain;
+        $url = $scheme . '://' . $this->dnsRecord->name . "." . $this->dnsRecord->domain->domain;
+        $filename = $scheme . '_' . $this->dnsRecord->name . "_" . $this->dnsRecord->domain->domain;
 
         // Call the google API to fetch JSON data
         $screen_shot_json_data = file_get_contents("
@@ -51,6 +53,9 @@ class ExecuteScreenshot implements ShouldQueue
         // String-replace some stuff
         // $screen_shot contains the base64 image source
         $screen_shot = str_replace(array('_','-'), array('/','+'), $screen_shot);
+
+        // Save the image
+        Storage::put('screenshots/'str_replace('.', '_', $filename) . '.jpg', base64_decode($screen_shot));
 
         // Construct an image tag with the right data
         //$screen_shot_image = "<img src=\"data:image/jpeg;base64,".$screen_shot."\" class='img-responsive img-thumbnail' />";
