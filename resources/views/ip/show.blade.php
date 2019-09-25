@@ -24,6 +24,24 @@
 			</table>
 		@endpanel
 	</div>
+	<div class="col-12">
+		@panel(['title' => "Services"])
+			<table class="table table-sm">
+				<tr>
+					<th>Port</th>
+					<th>Name</th>
+					<th>Proto</th>
+				</tr>
+				@foreach($ip->services as $service)
+					<tr>
+						<td>{{$service->port}}</td>
+						<td><span title="{{$service->product}} - {{$service->version}}">{{$service->service_name}}</span></td>
+						<td>{{$service->protocol}}</td>
+					</tr>
+				@endforeach
+			</table>
+		@endpanel
+	</div>
 @endpush
 
 @section('content')
