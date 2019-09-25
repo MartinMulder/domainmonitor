@@ -15,7 +15,7 @@ class ServiceObserver extends BaseObserver
      */
     public function created(Service $service)
     {
-        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ')' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
+        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
     }
 
@@ -27,7 +27,7 @@ class ServiceObserver extends BaseObserver
      */
     public function updated(Service $service)
     {
-        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ')' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
+        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $changes = $this->getModelChanges($service);
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => $changes]);
     }
@@ -40,7 +40,7 @@ class ServiceObserver extends BaseObserver
      */
     public function deleted(Service $service)
     {
-        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ')' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
+        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
     }
 
@@ -52,7 +52,7 @@ class ServiceObserver extends BaseObserver
      */
     public function restored(Service $service)
     {
-        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ')' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
+        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
     }
 
@@ -64,7 +64,7 @@ class ServiceObserver extends BaseObserver
      */
     public function forceDeleted(Service $service)
     {
-        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ')' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
+        $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
     }
 }
