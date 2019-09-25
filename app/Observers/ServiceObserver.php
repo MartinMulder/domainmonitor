@@ -17,6 +17,7 @@ class ServiceObserver extends BaseObserver
     {
         $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
+        $this->makeScreenshots($service);
     }
 
     /**
@@ -66,5 +67,19 @@ class ServiceObserver extends BaseObserver
     {
         $description = "Service " . $service->service_name . ' (port: ' . $service->port . ') ' . __FUNCTION__ . ' for IP: ' . $service->ip->ip;
         $service->auditLogs()->create(['action' => __FUNCTION__, 'description' => $description, 'result' => print_r($service, true)]);
+    }
+
+    private function makeScreenshots(Service $service)
+    {
+        foreach($service->ip->dnsRecords as $record)
+        {
+            $url = $service->getScheme() .'://'. $record->getDnsName();
+            if ($service->port != 80 && $service->port != 443)
+            {
+                $url .= ':' . $service->port;
+            } 
+            ExecuteScreenshot::dispatch($url, $record->getDnsName(), $service->port);
+        }
+
     }
 }
