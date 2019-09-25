@@ -22,6 +22,16 @@ class DnsRecord extends Model
         });
     }
 
+    public function getDnsName()
+    {
+        if ($this->name == "@")
+        {
+            return $this->domain->domain;
+        } else {
+            return $this->name . '.' . $this->domain->domain;
+        }
+    }
+
     public function ip()
     {
         return $this->belongsTo('App\Models\Ip');
@@ -45,5 +55,10 @@ class DnsRecord extends Model
     public function auditLogs()
     {
     	return $this->morphMany('App\Models\AuditLog', 'auditable');
+    }
+
+    public function httpServices()
+    {
+        return $this->ip()->with('httpServices');
     }
 }

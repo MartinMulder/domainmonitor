@@ -18,6 +18,7 @@ Route::resource('ip', 'IpController');
 Route::resource('auditlog', 'AuditLogController');
 Route::get('/zonefile/diff/{old}/{new}', 'ZoneFileController@diff');
 Route::resource('zonefile', 'ZoneFileController');
+Route::get('/website', 'WebsiteController@index');
 Route::get('/', function () {
     return view('welcome');
 });

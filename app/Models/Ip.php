@@ -19,6 +19,11 @@ class Ip extends Model
         return $this->hasMany('App\Models\Service');
     }
 
+    public function httpServices()
+    {
+        return $this->hasMany('App\Models\Service')->http();
+    }
+
     public function auditLogs()
     {
     	return $this->morphMany('App\Models\AuditLog', 'auditable');
