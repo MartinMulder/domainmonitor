@@ -41,7 +41,7 @@ class WebsiteController extends Controller
                     $fname = 'storage/screenshots/no_image.png';
                 }
 
-                $websites[$record->getDnsName()] = ['url' => $url, 'image' => $fname];
+                $websites[$filename] = ['url' => $url, 'image' => $fname];
             }
         }
 
