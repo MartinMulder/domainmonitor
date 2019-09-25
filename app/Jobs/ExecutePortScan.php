@@ -37,7 +37,7 @@ class ExecutePortScan implements ShouldQueue
     {
         // Select the total list of current services
         $servicesToDelete = $this->ip->services()->pluck('id')->toArray();
-
+        
         Redis::throttle('portscan')->allow(1)->every(240)->block(300)->then(function () {
             $hosts = Nmap::create()
                 ->enableServiceInfo()
@@ -78,7 +78,7 @@ class ExecutePortScan implements ShouldQueue
                 }
 
             } else {
-                throw new Log::warning('invalid nmap response: ' . print_r($hosts, true));
+                Log::warning('invalid nmap response: ' . print_r($hosts, true));
             }
         }, function () {
             return $this->release(rand(200, 500));
