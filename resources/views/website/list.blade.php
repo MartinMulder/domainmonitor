@@ -9,6 +9,7 @@
 <table class="table table-sm">
 @foreach($websites as $website)
 <tr>
+	<td><img src="{{ $website['image'] }}" /></td>
 	<td><a href="{{ $website['url'] }}" target="_blank">{{ $website['url'] }}</a></td>	
 </tr>
 @endforeach
