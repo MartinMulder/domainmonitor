@@ -15,6 +15,11 @@
 			@include('domains.partials.whois', ['domain' => $domain])
 		@endpanel
 	</div>
+	<div class="col-12">
+		@panel(['title' => "Create record"])
+			@include('dns.partials.create')
+		@endpanel
+	</div>
 @endpush
 
 @section('content')
@@ -33,7 +38,13 @@
 			<tr>
 				<td>{{ $record->name}}</td>
 				<td>{{ $record->type}}</td>
-				<td class="text-break">{{ $record->destination}}</td>
+				<td class="text-break">
+					@if(filter_var($record->destination, FILTER_VALIDATE_IP) && $foo = App\Models\Ip::where('ip', '=', $record->destination)->firstOrFail())
+						<a href="{{ route('ip.show', $foo->id)}}">{{ $record->destination}}</a>
+					@else
+						{{ $record->destination }}
+					@endif
+				</td>
 				<td>{{ $record->comment}}</td>
 				<td>{{ $record->ttl}}</td>
 			</tr>

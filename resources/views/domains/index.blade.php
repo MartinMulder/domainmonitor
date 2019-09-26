@@ -4,6 +4,12 @@
 	Domain overview
 @endsection
 
+@push('menu')
+@panel(['title' => 'Create new domain'])
+@include('domains.partials.create')
+@endpanel
+@endpush
+
 @section('content')
 @panel
 <table class="table table-sm">

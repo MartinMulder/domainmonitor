@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\ExecuteScreenshot;
 use App\Models\Service;
 use App\Observers\BaseObserver;
 

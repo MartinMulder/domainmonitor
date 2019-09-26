@@ -11,36 +11,42 @@
 		@endpanel
 	</div>
 	<div class="col-12">
-		@panel(['title' => "Reverse DNS"])
-			<table class="table">
-				<tr>
-					<td>
-						Reverse DNS
-					</td>
-					<td>
-						{{ $ip->reverse_dns}}
-					</td>
-				</tr>
-			</table>
-		@endpanel
+		<div class="card card-defaut mb-4">
+			<h4 class="card-header">Reverse DNS<span class="float-md-right"><a href="{{route('retry.reversedns', ['ip' => $ip->id])}}" title="Retry reverse DNS lookup"><i class="fas fa-redo"></i></a></span></h4>
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<td>
+							Reverse DNS
+						</td>
+						<td>
+							{{ $ip->reverse_dns}}
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 	<div class="col-12">
-		@panel(['title' => "Services"])
-			<table class="table table-sm">
-				<tr>
-					<th>Port</th>
-					<th>Name</th>
-					<th>Proto</th>
-				</tr>
-				@foreach($ip->services as $service)
+			<div class="card card-defaut mb-4">
+			<h4 class="card-header">Services<span class="float-md-right"><a href="{{route('retry.portscan', ['ip' => $ip->id])}}" title="Retry portscan"><i class="fas fa-redo"></i></a></span></h4>
+			<div class="card-body">
+				<table class="table table-sm">
 					<tr>
-						<td>{{$service->port}}</td>
-						<td><span title="{{$service->product}} - {{$service->version}}">{{$service->service_name}}</span></td>
-						<td>{{$service->protocol}}</td>
+						<th>Port</th>
+						<th>Name</th>
+						<th>Proto</th>
 					</tr>
-				@endforeach
-			</table>
-		@endpanel
+					@foreach($ip->services as $service)
+						<tr>
+							<td>{{$service->port}}</td>
+							<td><span title="{{$service->product}} - {{$service->version}}">{{$service->service_name}}</span></td>
+							<td>{{$service->protocol}}</td>
+						</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
 	</div>
 @endpush
 

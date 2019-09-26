@@ -16,7 +16,24 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-    	$websites = [];
+        $websites = $this->getWebsites();
+        return view('website.index', compact('websites'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        $websites = $this->getWebsites();
+        return view('website.list', compact('websites'));
+    }
+
+    private function getWebsites()
+    {
+        $websites = [];
 
         // Get all the HTTP based services
         $services = Service::http()->get();
@@ -36,15 +53,15 @@ class WebsiteController extends Controller
                 $filename = 'screenshots/'.$record->getDnsName().'/'.$service->port.'.jpg';
                 if(Storage::disk('public')->exists($filename)) 
                 {
-                    $fname = 'storage/'.$filename;
+                    $fname = '/storage/'.$filename;
                 } else {
-                    $fname = 'storage/screenshots/no_image.png';
+                    $fname = '/storage/screenshots/no_image.png';
                 }
 
-                $websites[$filename] = ['url' => $url, 'image' => $fname];
+                $websites[$filename] = ['url' => $url, 'image' => $fname, 'record' => $record];
             }
         }
 
-        return view('website.index', compact('websites'));
+        return $websites;
     }
 }

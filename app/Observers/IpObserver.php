@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\ExecutePortScan;
 use App\Jobs\ExecuteReverseDnsLookup;
 use App\Models\AuditLog;
 use App\Models\Ip;

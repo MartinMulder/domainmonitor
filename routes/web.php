@@ -11,14 +11,30 @@
 |
 */
 
+// Domain routes
 Route::get('/domain/doWhois/{domain}', 'DomainController@doWhois');
+Route::post('/domain/{domain}', 'DomainController@addRecord')->name('dnsrecord.store');
 Route::resource('domain', 'DomainController');
+
+// IP routes
+Route::get('/ip/{ip}/retryReverseDNS', 'IpController@retryReverseDNS')->name('retry.reversedns');
+Route::get('/ip/{ip}/retryPortScan', 'IpController@retryPortScan')->name('retry.portscan');
 Route::get('/ip/doReverseDns/{ip}', 'IpController@doReverseDns');
 Route::resource('ip', 'IpController');
+
+// Auditlog routes
 Route::resource('auditlog', 'AuditLogController');
+
+// Zonefile routes
 Route::get('/zonefile/diff/{old}/{new}', 'ZoneFileController@diff');
 Route::resource('zonefile', 'ZoneFileController');
-Route::get('/website', 'WebsiteController@index');
+
+// Website routes
+Route::get('/website', 'WebsiteController@index')->name('website.index');
+Route::get('/website/list', 'WebsiteController@list')->name('website.list');
+
+
+// Defaullt routes
 Route::get('/', function () {
     return view('welcome');
 });

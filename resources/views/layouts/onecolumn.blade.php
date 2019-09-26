@@ -77,16 +77,13 @@
                 </div>
             </div>
         </nav>
-        <div class="mt-4 offset-md-3 pl-4">
+        <div class="mt-4 pl-4">
             <h1>@yield('page')</h1>
         </div>
         <main class="pb-4">
             <div class="container-fluid">
                 <div class="row mt-4">
-                    <div class="col-md-3 d-none d-md-block  sidebar">
-                        @stack('menu')
-                    </div>
-                    <div class="col-md-7 ml-sm-auto col-lg-9 px-4">
+                    <div class="col-md-12 ml-sm-auto px-4">
                         @yield('content')
                     </div>
                 </div>

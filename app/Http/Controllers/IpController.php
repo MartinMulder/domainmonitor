@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ExecuteReverseDnsLookup;
+use App\Jobs\ExecutePortScan;
 use App\Models\Ip;
 use Illuminate\Http\Request;
 
@@ -96,5 +97,17 @@ class IpController extends Controller
             sleep(5);
         }
         */
+    }
+
+    public function retryReverseDNS(IP $ip)
+    {
+        $foo = ExecuteReverseDnsLookup::dispatch($ip);
+        return redirect()->back();
+    }
+
+    public function retryPortScan(IP $ip)
+    {
+        $foo = ExecutePortScan::dispatch($ip);
+        return redirect()->back();
     }
 }

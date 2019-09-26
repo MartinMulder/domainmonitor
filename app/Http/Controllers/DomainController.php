@@ -38,7 +38,22 @@ class DomainController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'domain' => 'required|unique:domains|max:255',
+        ]);
+
+        try {
+            $domain = new Domain($validatedData);
+
+            // Force imported to false
+            $domain->in_bitportal = false;
+            $domain->save();
+        } catch ( \Exception $e ) {
+            Log::debug("Domain error: " . print_r($e->getMessage(), true));
+            return back()->withInput(); //->withErrors();
+        }
+
+        return redirect()->back(); 
     }
 
     /**
@@ -97,5 +112,32 @@ class DomainController extends Controller
             sleep(5);
         }
         */
+    }
+
+    public function addRecord(Request $request, Domain $domain)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'type' => 'required|max:5',
+            'destination' => 'required|max:255',
+            'ttl' => 'required|integer'
+        ]);
+
+        $result = $domain->dnsRecords()->updateOrCreate(
+            // Define the unique fields to select the record
+            [
+                'name' => $request->input('name'),
+                'type' => $request->input('type'),
+                'destination' => $request->input('destination'),
+
+            ],
+            // Dynamic data
+            [
+                'ttl' => $request->input('ttl'),
+                'imported_by_zonefile' => 0,
+            ]
+        );
+
+        return redirect()->back();
     }
 }

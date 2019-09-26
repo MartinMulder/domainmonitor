@@ -35,10 +35,11 @@ class ExecutePortScan implements ShouldQueue
      */
     public function handle()
     {
-        // Select the total list of current services
-        $servicesToDelete = $this->ip->services()->pluck('id')->toArray();
-        
         Redis::throttle('portscan')->allow(1)->every(240)->block(300)->then(function () {
+
+            // Select the total list of current services
+            $servicesToDelete = $this->ip->services()->pluck('id')->toArray();
+
             $hosts = Nmap::create()
                 ->enableServiceInfo()
                 ->setTimeout(240)
@@ -75,6 +76,16 @@ class ExecutePortScan implements ShouldQueue
                             Log::debug(print_r($result->getChanges(), true));
                         }
                     }
+                }
+
+                // Delete services not in nmap result
+                if (count($servicesToDelete) > 0) {
+                    Log::debug('Deleting '.count($servicesToDelete).' services from ip: '.$this->ip->ip);
+                    // This is not working because an direct ->delete() doens't fire am delete event
+                    //DnsRecord::whereIn('id', $servicesToDelete)->delete();
+                    Service::whereIn('id', $servicesToDelete)->get()->each(function($obj) {
+                        $obj->delete();
+                    });
                 }
 
             } else {
