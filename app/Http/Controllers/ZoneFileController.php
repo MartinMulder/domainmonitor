@@ -19,7 +19,12 @@ class ZoneFileController extends Controller
     public function index()
     {
         $zonefiles = ZoneFile::all();
-        return view('zonefile.index', compact('zonefiles'));
+        $latestTwo = $zonefiles->take(-2);
+        $diff = $this->makeDiff($zonefiles->first(), $latestTwo->last(), 'Unified');
+        if (empty($diff)) {
+            $diff = 'No changes';
+        } 
+        return view('zonefile.index', compact('zonefiles', 'diff','latestTwo'));
     }
 
     /**
@@ -114,45 +119,50 @@ class ZoneFileController extends Controller
 
     public function diff(ZoneFile $old, ZoneFile $new) 
     {
-    	// renderer class name: Unified, Context, Json, Inline, SideBySide
-    	$rendererName = 'Inline';
-
-    	$differOptions = [
-    		// Show how many neighbor lines
-    		'context' => 3,
-    		// ignore case differance
-    		'ignoreCase' => false,
-    		// ignore whitespace differance
-    		'ignoreWhitespace' => false,
-    	];
-
-    	$rendererOptions = [
-    		// how detailed the rendered HTML in-line diff is? (none, line, word, char)
-		    'detailLevel' => 'line',
-		    // renderer language: eng, cht, chs, jpn, ...
-		    // or an array which has the same keys with a language file
-		    'language' => 'eng',
-		    // show a separator between different diff hunks in HTML renderers
-		    'separateBlock' => true,
-		    // the frontend HTML could use CSS "white-space: pre;" to visualize consecutive whitespaces
-		    // but if you want to visualize them in the backend with "&nbsp;", you can set this to true
-		    'spacesToNbsp' => false,
-		    // HTML renderer tab width (negative = do not convert into spaces)
-		    'tabSize' => 4,
-		    // internally, ops (tags) are all int type but this is not good for human reading.
-		    // set this to "true" to convert them into string form before outputting.
-		    'outputTagAsString' => true,
-		    // extra HTML classes added to the DOM of the diff container
-		    'wrapperClasses' => ['diff-wrapper'],
-    	];
-
-		// one-line simply compare two strings
-		$result = DiffHelper::calculate($old->content, $new->content, $rendererName, $differOptions, $rendererOptions);
-
-		// custom usage
-		$differ = new Differ(explode("\n", $old->content), explode("\n", $new->content), $differOptions);
-		$renderer = RendererFactory::make($rendererName, $rendererOptions); // or your own renderer object
-		$diff = $renderer->render($differ);
+    	$diff = $this->makeDiff($old, $new);
 		return view('zonefile.diff', compact('diff','old', 'new'));
+    }
+
+    private function makeDiff(ZoneFile $old, ZoneFile $new, $renderName = 'Inline') 
+    {
+        // renderer class name: Unified, Context, Json, Inline, SideBySide
+        $rendererName = $renderName;
+
+        $differOptions = [
+            // Show how many neighbor lines
+            'context' => 3,
+            // ignore case differance
+            'ignoreCase' => false,
+            // ignore whitespace differance
+            'ignoreWhitespace' => false,
+        ];
+
+        $rendererOptions = [
+            // how detailed the rendered HTML in-line diff is? (none, line, word, char)
+            'detailLevel' => 'line',
+            // renderer language: eng, cht, chs, jpn, ...
+            // or an array which has the same keys with a language file
+            'language' => 'eng',
+            // show a separator between different diff hunks in HTML renderers
+            'separateBlock' => true,
+            // the frontend HTML could use CSS "white-space: pre;" to visualize consecutive whitespaces
+            // but if you want to visualize them in the backend with "&nbsp;", you can set this to true
+            'spacesToNbsp' => true,
+            // HTML renderer tab width (negative = do not convert into spaces)
+            'tabSize' => 4,
+            // internally, ops (tags) are all int type but this is not good for human reading.
+            // set this to "true" to convert them into string form before outputting.
+            'outputTagAsString' => true,
+            // extra HTML classes added to the DOM of the diff container
+            'wrapperClasses' => ['diff-wrapper'],
+        ];
+
+        // one-line simply compare two strings
+        //$result = DiffHelper::calculate($old->content, $new->content, $rendererName, $differOptions, $rendererOptions);
+
+        // custom usage
+        $differ = new Differ(explode("\n", $old->content), explode("\n", $new->content), $differOptions);
+        $renderer = RendererFactory::make($rendererName, $rendererOptions); // or your own renderer object
+        return $renderer->render($differ);
     }
 }

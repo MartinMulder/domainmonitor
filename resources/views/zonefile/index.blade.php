@@ -4,6 +4,18 @@
 	Zonefiles overview
 @endsection
 
+@push('style')
+	{{ Jfcherng\Diff\DiffHelper::getStyleSheet() }}
+@endpush
+
+@push('menu')
+@panel(['title' => 'Diff ' . $latestTwo->first()->title . ' - ' . $latestTwo->last()->title ])
+	<div class="text-break" style="white-space: pre-line;">
+			{!! $diff !!}
+	</div>
+@endpanel
+@endpush
+
 @section('content')
 @panel
 <table class="table table-sm">
